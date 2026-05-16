@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mawlaia</title>
+  <meta name="description" content="Developer infrastructure for the AI era." />
+  <meta name="robots" content="index, follow" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #080808;
+      --surface: #111111;
+      --border: #1f1f1f;
+      --border-hover: #333333;
+      --text: #e8e8e8;
+      --muted: #555555;
+      --accent: #6366f1;
+      --accent-dim: rgba(99, 102, 241, 0.12);
+      --radius: 10px;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 15px;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Layout ── */
+    .container {
+      width: 100%;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ── Header ── */
+    header {
+      padding: 64px 0 80px;
+      text-align: center;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      background: var(--accent);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-mark svg {
+      width: 18px;
+      height: 18px;
+      fill: white;
+    }
+
+    .logo-name {
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+      color: var(--text);
+    }
+
+    .tagline {
+      font-size: 15px;
+      color: var(--muted);
+      letter-spacing: 0.01em;
+    }
+
+    /* ── Section ── */
+    section {
+      padding-bottom: 72px;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-label::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── Product grid ── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 12px;
+    }
+
+    /* ── Product card ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.15s, background 0.15s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      border-color: var(--border-hover);
+      background: #161616;
+    }
+
+    .card-live:hover {
+      border-color: var(--accent);
+      background: #0f0f14;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .card-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.2px;
+    }
+
+    .badge {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .badge-live {
+      background: rgba(16, 185, 129, 0.12);
+      color: #10b981;
+      border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+
+    .card-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .card-link {
+      font-size: 12px;
+      color: var(--accent);
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .card-link svg {
+      width: 11px;
+      height: 11px;
+      opacity: 0.7;
+    }
+
+    /* ── Coming soon cards ── */
+    .card-hidden {
+      border-style: dashed;
+      cursor: default;
+    }
+
+    .card-hidden:hover {
+      border-color: var(--border);
+      background: var(--surface);
+    }
+
+    .hidden-content {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      filter: blur(5px);
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .hidden-name {
+      font-size: 15px;
+      font-weight: 600;
+      background: var(--border-hover);
+      border-radius: 4px;
+      height: 18px;
+      width: 60%;
+    }
+
+    .hidden-desc {
+      background: var(--border);
+      border-radius: 3px;
+      height: 12px;
+      width: 90%;
+    }
+
+    .hidden-desc-2 {
+      background: var(--border);
+      border-radius: 3px;
+      height: 12px;
+      width: 70%;
+    }
+
+    .hidden-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hidden-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    /* ── Footer ── */
+    footer {
+      margin-top: auto;
+      border-top: 1px solid var(--border);
+      padding: 28px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    footer .left {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    footer a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 13px;
+      transition: color 0.15s;
+    }
+
+    footer a:hover {
+      color: var(--text);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      header { padding: 48px 0 60px; }
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- Header -->
+    <header>
+      <div class="logo">
+        <div class="logo-mark">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <span class="logo-name">Mawlaia</span>
+      </div>
+      <p class="tagline">Developer infrastructure for the AI era.</p>
+    </header>
+
+    <!-- Live products -->
+    <section>
+      <p class="section-label">Live</p>
+      <div class="grid">
+
+        <a class="card card-live" href="https://grantyou.eu" target="_blank" rel="noopener">
+          <div class="card-header">
+            <span class="card-name">GrantYou</span>
+            <span class="badge badge-live">Live</span>
+          </div>
+          <p class="card-desc">EU funding search and matchmaking for research teams.</p>
+          <span class="card-link">
+            grantyou.eu
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M2.5 9.5l7-7M4 2.5h5.5v5.5"/>
+            </svg>
+          </span>
+        </a>
+
+
+      </div>
+    </section>
+
+    <!-- Open source SDKs -->
+    <section>
+      <p class="section-label">Open source</p>
+      <div class="grid">
+
+        <a class="card card-live" href="https://github.com/Mawlaia-Labs/pii-vault" target="_blank" rel="noopener">
+          <div class="card-header">
+            <span class="card-name">pii-vault</span>
+            <span class="badge badge-live">v0.1.0</span>
+          </div>
+          <p class="card-desc">Stop sending PII to OpenAI. Drop-in SafeOpenAI proxy with HMAC tokenization and GDPR DSAR support.</p>
+          <span class="card-link">
+            github.com/Mawlaia-Labs/pii-vault
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M2.5 9.5l7-7M4 2.5h5.5v5.5"/>
+            </svg>
+          </span>
+        </a>
+
+        <a class="card card-live" href="https://github.com/Mawlaia-Labs/evalforge" target="_blank" rel="noopener">
+          <div class="card-header">
+            <span class="card-name">evalforge</span>
+            <span class="badge badge-live">v0.1.0</span>
+          </div>
+          <p class="card-desc">Eval quality gates for LLM apps. ROUGE-L, exact match, regex, and LLM-judge scorers built for CI.</p>
+          <span class="card-link">
+            github.com/Mawlaia-Labs/evalforge
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M2.5 9.5l7-7M4 2.5h5.5v5.5"/>
+            </svg>
+          </span>
+        </a>
+
+        <a class="card card-live" href="https://github.com/Mawlaia-Labs/guardrail" target="_blank" rel="noopener">
+          <div class="card-header">
+            <span class="card-name">guardrail</span>
+            <span class="badge badge-live">v0.1.0</span>
+          </div>
+          <p class="card-desc">Runtime safety proxy for LLM features. Blocks prompt injection, jailbreaks, and off-topic requests via policy DSL.</p>
+          <span class="card-link">
+            github.com/Mawlaia-Labs/guardrail
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M2.5 9.5l7-7M4 2.5h5.5v5.5"/>
+            </svg>
+          </span>
+        </a>
+
+        <a class="card card-live" href="https://github.com/Mawlaia-Labs/docparse" target="_blank" rel="noopener">
+          <div class="card-header">
+            <span class="card-name">docparse</span>
+            <span class="badge badge-live">v0.1.0</span>
+          </div>
+          <p class="card-desc">LLM-powered structured extraction from PDFs. Five vertical schemas (invoice, contract, medical, financial, ID) plus custom.</p>
+          <span class="card-link">
+            github.com/Mawlaia-Labs/docparse
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M2.5 9.5l7-7M4 2.5h5.5v5.5"/>
+            </svg>
+          </span>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- Coming soon -->
+    <section>
+      <p class="section-label">In development</p>
+      <div class="grid">
+
+        <div class="card card-hidden">
+          <div class="hidden-content">
+            <div class="hidden-name"></div>
+            <div class="hidden-desc"></div>
+            <div class="hidden-desc-2"></div>
+          </div>
+          <div class="hidden-overlay">
+            <span class="hidden-label">Coming soon</span>
+          </div>
+        </div>
+
+        <div class="card card-hidden">
+          <div class="hidden-content">
+            <div class="hidden-name"></div>
+            <div class="hidden-desc"></div>
+            <div class="hidden-desc-2"></div>
+          </div>
+          <div class="hidden-overlay">
+            <span class="hidden-label">Coming soon</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;width:100%;">
+      <span class="left">© 2026 Mawlaia</span>
+      <a href="mailto:contact@mawlaia.com">contact@mawlaia.com</a>
+    </div>
+  </footer>
+
+</body>
+</html>
